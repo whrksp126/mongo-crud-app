@@ -13,11 +13,11 @@ export async function dbConnect() {
   console.log(db.connection.db.databaseName)
 }
 
-connection.on('연결된', ()=> {
-  console.log('우리 데이터베이스에 연결된 MongoDB')
-})
+connection.on('connected', () => {
+  console.log('MongoDB connected to our database')
+});
 
 
 connection.on('error', (err)=> {
-  console.log('MongoDB 오류', err.massage)
-})
+  console.log('MongoDB Error', err.massage)
+});
