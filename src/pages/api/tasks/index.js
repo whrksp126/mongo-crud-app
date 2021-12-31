@@ -4,10 +4,9 @@ import Morgan from 'morgan';
 
 dbConnect();
 
-export default async (req, res) => {
+const index = async (req, res) => {
   const {method, body} = req;
   const morgan = Morgan('dev');
-
   switch (method) {
     case 'GET':
       try {
@@ -26,5 +25,8 @@ export default async (req, res) => {
       } catch (err) {
         return res.status(400).json({msg: err.message});
       }
+    default: return res.status(400).json({msg: "This method is not supported"})
   }
 };
+
+export default index
