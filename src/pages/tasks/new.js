@@ -9,9 +9,19 @@ const CreateTask = () => {
   });
   
   const {title, description} = newTask;
-  const {push} = useRouter();
+  const {push, query} = useRouter();
   const [isSubmit, setIsSubmit] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const getTask = async() => {
+    const response = await fetch(`http://localhost:3000/api/tasks/${query.id}`);
+    const data = await response.json();
+    setNewTask({title: data.title, description: data.description });
+  }
+
+  useEffect(() =>{
+    if(query.id) getTask();
+  }, [query.id])
 
   const validate = () => {
     let errors = {};
@@ -30,16 +40,34 @@ const CreateTask = () => {
 
     if(Object.keys(errors).length) return setErrors(errors);
     setIsSubmit(true);
-    await createTask();
+    if(query.id){
+      await updateTask()
+    } else {
+      await createTask();
+    }
+
     await push('/')
   }
+  const updateTask = async() => {
+    try {
+      await fetch(`http://localhost:3000/api/tasks/${query.id}`, {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body:JSON.stringify(newTask),
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   const createTask = async() => {
     try {
       await fetch('http://localhost:3000/api/tasks', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body:JSON.stringify(newTask),
       });
@@ -57,7 +85,7 @@ const CreateTask = () => {
       <Grid.Row>
         <Grid.Column textAlign="center">
           <div>
-            <h1>작업 생성</h1>
+            <h1>{query.id ? '작업 수정' : '작업 생성'}</h1>
             <div>
               {isSubmit ? 
                 (<Loader active inline="centered" />) 
@@ -68,7 +96,7 @@ const CreateTask = () => {
                       label="제목" placeholder="제목을 입력하세요" name="title" onChange={handleChange} value={title} autoFocus />
                     <Form.TextArea error={errors.description ? {content: '설명을 입력하세요'} : null}
                       label="설명" placeholder="설명을 입력하세요" name="description" onChange={handleChange} value={description} />
-                    <Button type="submit" primary>전송</Button>
+                    <Button type="submit" primary>{query.id ? '수정' : '전송'}</Button>
                   </Form>
                 )
               }

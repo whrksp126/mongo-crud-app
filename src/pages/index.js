@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export default function Home({tasks = []}) {
-
+  const router = useRouter();
   if(tasks.length === 0) {
     return (
       <Grid centered vericalAlign="middle" columns='1' style={{height: '80vh'}}>
@@ -24,8 +24,8 @@ export default function Home({tasks = []}) {
     <Container>
       <Card.Group itemsPerRow={4}>
         {tasks && tasks.map((task) => (
-          <Card key={task._id}>
-            <Card.Content>
+          <Card key={task._id} >
+            <Card.Content >
               <Card.Header>
                 <Link href={`/tasks/${task._id}`}>
                   <a>{task.title}</a>
@@ -35,10 +35,13 @@ export default function Home({tasks = []}) {
             </Card.Content>
             <Card.Content extra>
               <Button color="orange" onClick={ () => router.push(`/tasks/${task._id}`) }>
-                 View
+                 상세
               </Button>
               <Button color="blue" onClick={ () => router.push(`/tasks/${task._id}/edit`) }>
-                 Edit
+                 수정
+              </Button>
+              <Button color="pink">
+                 완료
               </Button>
             </Card.Content>
           </Card>
