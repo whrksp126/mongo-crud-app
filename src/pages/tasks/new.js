@@ -4,11 +4,13 @@ import {useRouter} from 'next/router';
 
 const CreateTask = () => {
   const [newTask, setNewTask] = useState({
-    title: '',
+    name: '',
     description: '',
+    memo: '',
+    status: Boolean
   });
   
-  const {title, description} = newTask;
+  const {name, description, memo, status} = newTask;
   const {push, query} = useRouter();
   const [isSubmit, setIsSubmit] = useState(false);
   const [errors, setErrors] = useState({});
@@ -16,7 +18,7 @@ const CreateTask = () => {
   const getTask = async() => {
     const response = await fetch(`http://localhost:3000/api/tasks/${query.id}`);
     const data = await response.json();
-    setNewTask({title: data.title, description: data.description });
+    setNewTask({name: data.name, description: data.description, memo:data.memo, status:data.status});
   }
 
   useEffect(() =>{
@@ -25,8 +27,8 @@ const CreateTask = () => {
 
   const validate = () => {
     let errors = {};
-    if(!title){
-      errors.title = "제목은 필수 항목입니다."
+    if(!name){
+      errors.name = "제목은 필수 항목입니다."
     }
     if(!description){
       errors.description = "설명은 필수 항목입니다."
@@ -92,8 +94,8 @@ const CreateTask = () => {
                   : 
                 (
                   <Form onSubmit={handleSubmit}>
-                    <Form.Input error={errors.title ? {content: '제목을 입력하세요'} : null}
-                      label="제목" placeholder="제목을 입력하세요" name="title" onChange={handleChange} value={title} autoFocus />
+                    <Form.Input error={errors.name ? {content: '제목을 입력하세요'} : null}
+                      label="제목" placeholder="제목을 입력하세요" name="name" onChange={handleChange} value={name} autoFocus />
                     <Form.TextArea error={errors.description ? {content: '설명을 입력하세요'} : null}
                       label="설명" placeholder="설명을 입력하세요" name="description" onChange={handleChange} value={description} />
                     <Button type="submit" primary>{query.id ? '수정' : '전송'}</Button>

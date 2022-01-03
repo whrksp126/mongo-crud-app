@@ -11,7 +11,7 @@ const index = async (req, res) => {
     case 'GET':
       try {
         const task = await Task.findById(id);
-        if(!task) return res.status(404).json({msg: "Task doesn't exists"})
+        if(!task) return res.status(404).json({msg: "작업이 존재하지 않습니다"})
         await runMiddleware(req, res, morgan);
         return res.status(200).json(task);
       } catch(err) {
@@ -21,7 +21,7 @@ const index = async (req, res) => {
       try {
         const deletedTask = await Task.findByIdAndDelete(id);
         if(!deletedTask) 
-          return res.status(404).json({msg: "Task doesn't exists"})
+          return res.status(404).json({msg: "작업이 존재하지 않습니다"})
         await runMiddleware(req, res, morgan);
         return res.status(204).json();
       } catch (err) {
@@ -35,13 +35,13 @@ const index = async (req, res) => {
           })
 
           if(!updatedTask)     
-            return res.status(404).json({msg: "Task doesn't exists"})
+            return res.status(404).json({msg: "작업이 존재하지 않습니다"})
             return res.status(200).json(updatedTask)
 
         } catch (err) {
           return res.status(400).json({msg: err.message});
         }
-      default: return res.status(400).json({msg: "This method is not supported"})
+      default: return res.status(400).json({msg: "이 방법은 지원되지 않습니다"})
       
   }
 };

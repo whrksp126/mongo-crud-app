@@ -25,7 +25,7 @@ const index = async (req, res) => {
       } catch (err) {
         return res.status(400).json({msg: err.message});
       }
-    default: return res.status(400).json({msg: "This method is not supported"})
+    default: return res.status(400).json({msg: "이 방법은 지원되지 않습니다"})
   }
 };
 

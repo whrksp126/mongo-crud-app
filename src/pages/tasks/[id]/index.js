@@ -38,7 +38,7 @@ const Task = ({task, error}) => {
         <Grid.Column textAlign='centered'>
           <Card centered >
             <Card.Content>
-              <Card.Header>{task.title}</Card.Header>
+              <Card.Header>{task.name}</Card.Header>
               <Card.Description>{task.description}</Card.Description>
             </Card.Content>
             <Card.Content extra>

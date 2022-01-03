@@ -28,7 +28,7 @@ export default function Home({tasks = []}) {
             <Card.Content >
               <Card.Header>
                 <Link href={`/tasks/${task._id}`}>
-                  <a>{task.title}</a>
+                  <a>{task.name}</a>
                 </Link>
               </Card.Header>
               <p>{task.description}</p>
